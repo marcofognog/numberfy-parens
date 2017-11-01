@@ -34,3 +34,9 @@
   (setq expected "0= 1+ 1 21 50")
   (should (string-equal expected (numbered-parens-convert original )))
   )
+
+(ert-deftest numbered-parens-convert-2-test ()
+  (setq original "(func-call (= (+ 1 2) 5))")
+  (setq expected "0func-call 1= 2+ 1 22 510")
+  (should (string-equal expected (numbered-parens-convert original )))
+  )

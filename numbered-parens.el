@@ -27,19 +27,20 @@
     (setq new-list (list))
     (setq char-list (split-string original ""))
     (setq current-level -1)
-    (loop for char in char-list collect
+    (loop for i from 0 to (length char-list) collect
           (progn
-            (if (string-equal char "(")
+            (setq current-char(nth (+ i 1) char-list))
+            (if (string-equal current-char "(")
                 (progn
                   (setq current-level (+ current-level 1))
                   (setq to-be-added (number-to-string current-level))
                   )
-              (if (string-equal char ")")
+              (if (string-equal current-char ")")
                   (progn
                     (setq to-be-added (number-to-string current-level))
                     (setq current-level (- current-level 1))
                     )
-                (setq to-be-added char)
+                (setq to-be-added current-char)
                 )
               )
             (setq new-list (cons to-be-added new-list))

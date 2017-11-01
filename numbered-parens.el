@@ -1,8 +1,11 @@
+(defvar numbered-parens-positions)
+
 (defun numbered-parens-numberfy()
   (interactive)
   (progn
     (setq content (buffer-substring-no-properties (point-min) (point-max)))
-    (setq new-content (numbered-parens-convert content))
+    (setq new-content (nth 0 (numbered-parens-convert content)))
+    (setq numbered-parens-positions (nth 1 (numbered-parens-convert content)))
     (setq saved-pos (point))
     (erase-buffer)
     (insert new-content)
@@ -14,7 +17,7 @@
   (interactive)
   (progn
     (setq content (buffer-substring-no-properties (point-min) (point-max)))
-    (setq new-content (numbered-parens-unconvert content))
+    (setq new-content (numbered-parens-unconvert content numbered-parens-positions))
     (setq saved-pos (point))
     (erase-buffer)
     (insert new-content)
@@ -75,7 +78,6 @@
               (setq to-be-added current-char)
               )
             (setq new-list (cons to-be-added new-list))
-            (print new-list)
             )
           )
     (mapconcat 'identity (reverse new-list) ""))
@@ -83,7 +85,6 @@
 (ert-deftest numbered-parens-convert-0-test ()
   (setq original "(+ 1 2)")
   (setq expected "0+ 1 20")
-  (print (numbered-parens-convert original))
   (should (string-equal expected (car (numbered-parens-convert original))))
   )
 

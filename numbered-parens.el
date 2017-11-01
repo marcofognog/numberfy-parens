@@ -25,6 +25,7 @@
 (defun numbered-parens-convert (original)
   (progn
     (setq new-list (list))
+    (setq positions (list))
     (setq char-list (split-string original ""))
     (setq current-level -1)
     (loop for i from 0 to (length char-list) collect
@@ -34,18 +35,20 @@
                 (progn
                   (setq current-level (+ current-level 1))
                   (setq to-be-added (number-to-string current-level))
+                  (setq positions (cons i positions))
                   )
               (if (string-equal current-char ")")
                   (progn
                     (setq to-be-added (number-to-string current-level))
                     (setq current-level (- current-level 1))
+                    (setq positions (cons i positions))
                     )
                 (setq to-be-added current-char)
                 )
               )
             (setq new-list (cons to-be-added new-list))
             ))
-    (mapconcat 'identity (reverse new-list) "")))
+    (list (mapconcat 'identity (reverse new-list) "") positions)))
 
 (defun numbered-parens-unconvert (converted positions)
     (setq new-list (list))
@@ -80,25 +83,33 @@
 (ert-deftest numbered-parens-convert-0-test ()
   (setq original "(+ 1 2)")
   (setq expected "0+ 1 20")
-  (should (string-equal expected (numbered-parens-convert original )))
+  (print (numbered-parens-convert original))
+  (should (string-equal expected (car (numbered-parens-convert original))))
   )
 
 (ert-deftest numbered-parens-convert-1-test ()
   (setq original "(= (+ 1 2) 5)")
   (setq expected "0= 1+ 1 21 50")
-  (should (string-equal expected (numbered-parens-convert original )))
+  (should (string-equal expected (car (numbered-parens-convert original))))
   )
 
 (ert-deftest numbered-parens-convert-2-test ()
   (setq original "(func-call (= (+ 1 2) 5))")
   (setq expected "0func-call 1= 2+ 1 22 510")
-  (should (string-equal expected (numbered-parens-convert original )))
+  (should (string-equal expected (car (numbered-parens-convert original))))
   )
 
 (ert-deftest numbered-parens-convert-siblings-0-test ()
   (setq original "(func-call (arg1-call) (arg2-call))")
   (setq expected "0func-call 1arg1-call1 1arg2-call10")
-  (should (string-equal expected (numbered-parens-convert original )))
+  (should (string-equal expected (car (numbered-parens-convert original))))
+  )
+
+(ert-deftest numbered-parens-convert-siblings-0-positions-test ()
+  (setq original "(func-call (arg1-call) (arg2-call))")
+  (setq expected (list 0 11 21 23 33 34))
+  (setq expected (list 34 33 23 21 11 0))
+  (should (equal expected (nth 1 (numbered-parens-convert original))))
   )
 
 (ert-deftest numbered-parens-unconvert-0-test ()

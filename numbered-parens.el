@@ -22,6 +22,35 @@
             ))
     (mapconcat 'identity (reverse new-list) "")))
 
+(defun numbered-parens-unconvert (converted positions)
+    (setq new-list (list))
+    (setq char-list (split-string converted ""))
+    (setq current-level -1)
+    (loop for i from 0 to (length char-list) collect
+          (progn
+            (setq to-be-added "")
+            (setq current-char (nth (+ i 1) char-list))
+            (if (member i positions)
+                (if (< current-level (string-to-number current-char))
+                    (progn
+                      (setq to-be-added "(")
+                      (setq current-level (+ 1 current-level))
+                    )
+                  (if (= current-level (string-to-number current-char))
+                    (progn
+                      (setq to-be-added ")")
+                      (setq current-level (- 1 current-level))
+                    )
+                    (print "unconvert: invalid syntax")
+                    )
+                  )
+              (setq to-be-added current-char)
+              )
+            (setq new-list (cons to-be-added new-list))
+            (print new-list)
+            )
+          )
+    (mapconcat 'identity (reverse new-list) ""))
 
 (ert-deftest numbered-parens-convert-0-test ()
   (setq original "(+ 1 2)")
@@ -46,3 +75,18 @@
   (setq expected "0func-call 1arg1-call1 1arg2-call10")
   (should (string-equal expected (numbered-parens-convert original )))
   )
+
+(ert-deftest numbered-parens-unconvert-0-test ()
+  (setq converted "0+ 1 20")
+  (setq positions (list 0 6))
+  (setq expected "(+ 1 2)")
+  (should (string-equal expected (numbered-parens-unconvert converted positions)))
+  )
+
+(ert-deftest numbered-parens-unconvert-1-test ()
+  (setq expected "(= (+ 1 2) 5)")
+  (setq converted "0= 1+ 1 21 50")
+  (setq positions (list 0 3 9 12))
+  (should (string-equal expected (numbered-parens-unconvert converted positions)))
+  )
+

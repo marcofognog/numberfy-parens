@@ -40,3 +40,9 @@
   (setq expected "0func-call 1= 2+ 1 22 510")
   (should (string-equal expected (numbered-parens-convert original )))
   )
+
+(ert-deftest numbered-parens-convert-siblings-0-test ()
+  (setq original "(func-call (arg1-call) (arg2-call))")
+  (setq expected "0func-call 1arg1-call1 1arg2-call10")
+  (should (string-equal expected (numbered-parens-convert original )))
+  )

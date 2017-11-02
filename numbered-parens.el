@@ -1,4 +1,18 @@
 (defvar numbered-parens-positions)
+(defvar numbered-parens-numberfyedp)
+
+(defun numberfy-toggle-buffer()
+  (interactive)
+  (if numbered-parens-numberfyedp
+      (progn
+        (numbered-parens-unnumberfy)
+        (setq numbered-parens-numberfyedp nil)
+        )
+    (progn
+      (numbered-parens-numberfy)
+      (setq numbered-parens-numberfyedp t)
+      ))
+  )
 
 (defun numbered-parens-numberfy()
   (interactive)

@@ -1,7 +1,7 @@
 (defvar numbered-parens-positions)
 (defvar numbered-parens-numberfyedp nil)
 
-(defun numberfy-toggle-buffer()
+(defun numbered-parens-toggle-buffer()
   (interactive)
   (if numbered-parens-numberfyedp
       (progn

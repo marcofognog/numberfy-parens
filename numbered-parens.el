@@ -141,3 +141,10 @@
   (should (string-equal expected (numbered-parens-unconvert converted positions)))
   )
 
+
+(ert-deftest numbered-parens-unconvert-2-test ()
+  (setq expected  "(funccall1 (funccall2 (funccall3)))")
+  (setq converted "0funccall1 1funccall2 2funccall3210")
+  (setq positions (list 0 11 22 32 33 34))
+  (should (string-equal expected (numbered-parens-unconvert converted positions)))
+  )

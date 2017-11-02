@@ -11,6 +11,7 @@
     (progn
       (numbered-parens-numberfy)
       (setq numbered-parens-numberfyedp t)
+      (numbered-parens-highlight)
       ))
   )
 
@@ -95,6 +96,36 @@
             )
           )
     (mapconcat 'identity (reverse new-list) ""))
+
+(defun numbered-parens-highlight ()
+  (interactive)
+  (setq content (buffer-substring-no-properties (point-min) (point-max)))
+  (setq char-list (split-string content ""))
+  (loop for pos in numbered-parens-positions
+        collect
+        (progn
+        (setq number (string-to-number (nth (+ pos 1) char-list)))
+        (numbered-parens-highlight-char (+ pos 1) number))
+        )
+  )
+
+(defun numbered-parens-highlight-char(position number)
+  (when (or (equal number 0) (equal number 5))
+    (put-text-property position (+ position 1) 'font-lock-face '(:foreground "yellow") (current-buffer))
+    )
+  (when (or (equal number 1) (equal number 6))
+    (put-text-property position (+ position 1) 'font-lock-face '(:foreground "red") (current-buffer))
+    )
+  (when (or (equal number 2) (equal number 7))
+    (put-text-property position (+ position 1) 'font-lock-face '(:foreground "green") (current-buffer))
+    )
+  (when (or (equal number 3) (equal number 8))
+    (put-text-property position (+ position 1) 'font-lock-face '(:foreground "lightblue") (current-buffer))
+    )
+  (when (or (equal number 4) (equal number 9))
+    (put-text-property position (+ position 1) 'font-lock-face '(:foreground "white") (current-buffer))
+    )
+  )
 
 (ert-deftest numbered-parens-convert-0-test ()
   (setq original "(+ 1 2)")

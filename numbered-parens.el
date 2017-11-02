@@ -79,12 +79,12 @@
                 (if (< current-level (string-to-number current-char))
                     (progn
                       (setq to-be-added "(")
-                      (setq current-level (+ 1 current-level))
+                      (setq current-level (+ current-level 1))
                     )
                   (if (= current-level (string-to-number current-char))
                     (progn
                       (setq to-be-added ")")
-                      (setq current-level (- 1 current-level))
+                      (setq current-level (- current-level 1))
                     )
                     (print "unconvert: invalid syntax")
                     )

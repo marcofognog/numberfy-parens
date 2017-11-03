@@ -1,6 +1,6 @@
 (defvar numberfy-parens-positions)
 
-(defun numberfy-parens ()
+(defun numberfy-parens-buffer ()
   (interactive)
   (progn
     (setq content (buffer-substring-no-properties (point-min) (point-max)))

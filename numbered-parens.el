@@ -1,25 +1,15 @@
 (defvar numbered-parens-positions)
-(defvar numbered-parens-numberfyedp nil)
 
 (defun numbered-parens-toggle-buffer()
   (interactive)
-  (if numbered-parens-numberfyedp
-      (progn
-        (numbered-parens-unnumberfy)
-        (setq numbered-parens-numberfyedp nil)
-        )
-    (progn
-      (numbered-parens-numberfy)
-      (setq numbered-parens-numberfyedp t)
-      (numbered-parens-highlight)
-      ))
+        (numbered-parens-numberfy)
   )
 
 (defun numbered-parens-numberfy()
   (progn
     (setq content (buffer-substring-no-properties (point-min) (point-max)))
-    (setq new-content (nth 0 (numbered-parens-convert content)))
-    (setq numbered-parens-positions (nth 1 (numbered-parens-convert content)))
+    (setq new-content (nth 0 (numbered-parens-replace content)))
+    (setq numbered-parens-positions (nth 1 (numbered-parens-replace content)))
     (setq saved-pos (point))
     (erase-buffer)
     (insert new-content)
@@ -27,18 +17,7 @@
     )
   )
 
-(defun numbered-parens-unnumberfy()
-  (progn
-    (setq content (buffer-substring-no-properties (point-min) (point-max)))
-    (setq new-content (numbered-parens-unconvert content numbered-parens-positions))
-    (setq saved-pos (point))
-    (erase-buffer)
-    (insert new-content)
-    (goto-char saved-pos)
-    )
-  )
-
-(defun numbered-parens-convert (original)
+(defun numbered-parens-replace(original)
   (progn
     (setq new-list (list))
     (setq positions (list))
@@ -65,35 +44,6 @@
             (setq new-list (cons to-be-added new-list))
             ))
     (list (mapconcat 'identity (reverse new-list) "") positions)))
-
-(defun numbered-parens-unconvert (converted positions)
-    (setq new-list (list))
-    (setq char-list (split-string converted ""))
-    (setq current-level -1)
-    (loop for i from 0 to (length char-list) collect
-          (progn
-            (setq to-be-added "")
-            (setq current-char (nth (+ i 1) char-list))
-            (if (member i positions)
-                (if (< current-level (string-to-number current-char))
-                    (progn
-                      (setq to-be-added "(")
-                      (setq current-level (+ current-level 1))
-                    )
-                  (if (= current-level (string-to-number current-char))
-                    (progn
-                      (setq to-be-added ")")
-                      (setq current-level (- current-level 1))
-                    )
-                    (print "unconvert: invalid syntax")
-                    )
-                  )
-              (setq to-be-added current-char)
-              )
-            (setq new-list (cons to-be-added new-list))
-            )
-          )
-    (mapconcat 'identity (reverse new-list) ""))
 
 (defun numbered-parens-highlight ()
   (setq content (buffer-substring-no-properties (point-min) (point-max)))
@@ -159,26 +109,4 @@
   (setq expected (list 0 11 21 23 33 34))
   (setq expected (list 34 33 23 21 11 0))
   (should (equal expected (nth 1 (numbered-parens-convert original))))
-  )
-
-(ert-deftest numbered-parens-unconvert-0-test ()
-  (setq converted "0+ 1 20")
-  (setq positions (list 0 6))
-  (setq expected "(+ 1 2)")
-  (should (string-equal expected (numbered-parens-unconvert converted positions)))
-  )
-
-(ert-deftest numbered-parens-unconvert-1-test ()
-  (setq expected "(= (+ 1 2) 5)")
-  (setq converted "0= 1+ 1 21 50")
-  (setq positions (list 0 3 9 12))
-  (should (string-equal expected (numbered-parens-unconvert converted positions)))
-  )
-
-
-(ert-deftest numbered-parens-unconvert-2-test ()
-  (setq expected  "(funccall1 (funccall2 (funccall3)))")
-  (setq converted "0funccall1 1funccall2 2funccall3210")
-  (setq positions (list 0 11 22 32 33 34))
-  (should (string-equal expected (numbered-parens-unconvert converted positions)))
   )

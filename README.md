@@ -12,8 +12,10 @@ Can you see the difference?
 
 Download numberfy-parens.el to your load path ad require `numberfy-parens` in you config file. No packages availble yet.
 
-Set it to your favorite key, like:
+## Usage
 
-`(global-set-key (kbd "C-c C-y") 'numberfy-parens)`
+Only one function `numberfy-parens-buffer` is made available to you, wich you can set to your favorite key, like:
+
+`(global-set-key (kbd "C-c C-y") 'numberfy-parens-buffer)`
 
 Enjoy.

@@ -1,11 +1,11 @@
 (defvar numbered-parens-positions)
 
-(defun numbered-parens-numberfy()
+(defun numberfy-parens ()
   (interactive)
   (progn
     (setq content (buffer-substring-no-properties (point-min) (point-max)))
-    (setq new-content (nth 0 (numbered-parens-replace content)))
-    (setq numbered-parens-positions (nth 1 (numbered-parens-replace content)))
+    (setq new-content (nth 0 (numberfy-parens-replace content)))
+    (setq numbered-parens-positions (nth 1 (numberfy-parens-replace content)))
     (setq saved-pos (point))
     (erase-buffer)
     (insert new-content)
@@ -14,7 +14,7 @@
     )
   )
 
-(defun numbered-parens-replace(original)
+(defun numberfy-parens-replace(original)
   (progn
     (setq new-list (list))
     (setq positions (list))

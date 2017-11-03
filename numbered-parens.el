@@ -50,12 +50,12 @@
             (if (string-equal current-char "(")
                 (progn
                   (setq current-level (+ current-level 1))
-                  (setq to-be-added (number-to-string current-level))
+                  (setq to-be-added (substring (number-to-string current-level) -1 nil))
                   (setq positions (cons i positions))
                   )
               (if (string-equal current-char ")")
                   (progn
-                    (setq to-be-added (number-to-string current-level))
+                    (setq to-be-added (substring (number-to-string current-level) -1 nil))
                     (setq current-level (- current-level 1))
                     (setq positions (cons i positions))
                     )
@@ -145,6 +145,12 @@
 (ert-deftest numbered-parens-convert-siblings-0-test ()
   (setq original "(func-call (arg1-call) (arg2-call))")
   (setq expected "0func-call 1arg1-call1 1arg2-call10")
+  (should (string-equal expected (car (numbered-parens-convert original))))
+  )
+
+(ert-deftest numbered-parens-convert-deeper-nesting-0-test ()
+  (setq original "(((((((((((((())))))))))))))")
+  (setq expected "0123456789012332109876543210")
   (should (string-equal expected (car (numbered-parens-convert original))))
   )
 

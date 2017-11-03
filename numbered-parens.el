@@ -9,7 +9,7 @@
     (setq saved-pos (point))
     (erase-buffer)
     (insert new-content)
-    (numbered-parens-highlight)
+    (numberfy-parens-highlight)
     (goto-char saved-pos)
     )
   )
@@ -42,18 +42,18 @@
             ))
     (list (mapconcat 'identity (reverse new-list) "") positions)))
 
-(defun numbered-parens-highlight ()
+(defun numberfy-parens-highlight ()
   (setq content (buffer-substring-no-properties (point-min) (point-max)))
   (setq char-list (split-string content ""))
   (loop for pos in numbered-parens-positions
         collect
         (progn
         (setq number (string-to-number (nth (+ pos 1) char-list)))
-        (numbered-parens-highlight-char (+ pos 1) number))
+        (numberfy-parens-highlight-char (+ pos 1) number))
         )
   )
 
-(defun numbered-parens-highlight-char(position number)
+(defun numberfy-parens-highlight-char(position number)
   (when (or (equal number 0) (equal number 5))
     (put-text-property position (+ position 1) 'font-lock-face '(:foreground "yellow") (current-buffer))
     )

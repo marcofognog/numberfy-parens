@@ -1,11 +1,7 @@
 (defvar numbered-parens-positions)
 
-(defun numbered-parens-toggle-buffer()
-  (interactive)
-        (numbered-parens-numberfy)
-  )
-
 (defun numbered-parens-numberfy()
+  (interactive)
   (progn
     (setq content (buffer-substring-no-properties (point-min) (point-max)))
     (setq new-content (nth 0 (numbered-parens-replace content)))
@@ -13,6 +9,7 @@
     (setq saved-pos (point))
     (erase-buffer)
     (insert new-content)
+    (numbered-parens-highlight)
     (goto-char saved-pos)
     )
   )

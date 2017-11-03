@@ -15,3 +15,5 @@ Download numberfy-parens.el to your load path ad require `numberfy-parens` in yo
 Set it to your favorite key, like:
 
 `(global-set-key (kbd "C-c C-y") 'numberfy-parens)`
+
+Enjoy.

@@ -1,0 +1,38 @@
+(require 'numberfy-parens)
+
+(ert-deftest numberfy-parens-replace-0-test ()
+  (setq original "(+ 1 2)")
+  (setq expected "0+ 1 20")
+  (should (string-equal expected (car (numberfy-parens-replace original))))
+  )
+
+(ert-deftest numberfy-parens-replace-1-test ()
+  (setq original "(= (+ 1 2) 5)")
+  (setq expected "0= 1+ 1 21 50")
+  (should (string-equal expected (car (numberfy-parens-replace original))))
+  )
+
+(ert-deftest numberfy-parens-replace-2-test ()
+  (setq original "(func-call (= (+ 1 2) 5))")
+  (setq expected "0func-call 1= 2+ 1 22 510")
+  (should (string-equal expected (car (numberfy-parens-replace original))))
+  )
+
+(ert-deftest numberfy-parens-replace-siblings-0-test ()
+  (setq original "(func-call (arg1-call) (arg2-call))")
+  (setq expected "0func-call 1arg1-call1 1arg2-call10")
+  (should (string-equal expected (car (numberfy-parens-replace original))))
+  )
+
+(ert-deftest numberfy-parens-replace-deeper-nesting-0-test ()
+  (setq original "(((((((((((((())))))))))))))")
+  (setq expected "0123456789012332109876543210")
+  (should (string-equal expected (car (numberfy-parens-replace original))))
+  )
+
+(ert-deftest numberfy-parens-replace-siblings-0-positions-test ()
+  (setq original "(func-call (arg1-call) (arg2-call))")
+  (setq expected (list 0 11 21 23 33 34))
+  (setq expected (list 34 33 23 21 11 0))
+  (should (equal expected (nth 1 (numberfy-parens-replace original))))
+  )

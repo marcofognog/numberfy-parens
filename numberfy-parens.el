@@ -2,30 +2,27 @@
 
 (defun numberfy-parens-buffer ()
   (interactive)
+  (numberfy-parens-in-region (point-min) (point-max))
+  )
+
+(defun numberfy-parens-in-region (start end)
   (progn
-    (setq content (buffer-substring-no-properties (point-min) (point-max)))
+    (setq content (buffer-substring-no-properties start end))
     (setq new-content (nth 0 (numberfy-parens-replace content)))
     (setq numberfy-parens-positions (nth 1 (numberfy-parens-replace content)))
     (setq saved-pos (point))
-    (erase-buffer)
+    (delete-region start end)
     (insert new-content)
-    (numberfy-parens-highlight)
+    (numberfy-parens-highlight start end)
     (goto-char saved-pos)
     )
   )
 
 (defun numberfy-parens-defun ()
   (interactive)
-  (if (numberfy-parens-in-defun)
-      (save-restriction
-        (widen)
-        (narrow-to-defun)
-        (numberfy-parens-buffer))
-    (numberfy-parens-buffer))
+  (mark-defun)
+  (numberfy-parens-in-region (region-beginning) (region-end))
   )
-
-(defun numberfy-parens-in-defun ()
-  (bounds-of-thing-at-point 'defun))
 
 (defun numberfy-parens-replace(original)
   (progn
@@ -55,14 +52,14 @@
             ))
     (list (mapconcat 'identity (reverse new-list) "") positions)))
 
-(defun numberfy-parens-highlight ()
-  (setq content (buffer-substring-no-properties (point-min) (point-max)))
+(defun numberfy-parens-highlight (start end)
+  (setq content (buffer-substring-no-properties start end))
   (setq char-list (split-string content ""))
   (loop for pos in numberfy-parens-positions
         collect
         (progn
         (setq number (string-to-number (nth (+ pos 1) char-list)))
-        (numberfy-parens-highlight-char (+ pos 1) number))
+        (numberfy-parens-highlight-char (+ start pos) number))
         )
   )
 

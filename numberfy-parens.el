@@ -90,4 +90,6 @@
             (define-key map (kbd "C-c C-m") 'numberfy-parens-buffer)
             map))
 
+(add-hook 'emacs-lisp-mode-hook 'numberfy-parens-mode)
+
 (provide 'numberfy-parens)

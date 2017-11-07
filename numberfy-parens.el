@@ -5,6 +5,12 @@
   (numberfy-parens-in-region (point-min) (point-max))
   )
 
+(defun numberfy-parens-defun ()
+  (interactive)
+  (mark-defun)
+  (numberfy-parens-in-region (region-beginning) (region-end))
+  )
+
 (defun numberfy-parens-in-region (start end)
   (progn
     (setq content (buffer-substring-no-properties start end))
@@ -16,12 +22,6 @@
     (numberfy-parens-highlight start end)
     (goto-char saved-pos)
     )
-  )
-
-(defun numberfy-parens-defun ()
-  (interactive)
-  (mark-defun)
-  (numberfy-parens-in-region (region-beginning) (region-end))
   )
 
 (defun numberfy-parens-replace(original)

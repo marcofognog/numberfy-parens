@@ -14,8 +14,9 @@ Download numberfy-parens.el to your load path ad require `numberfy-parens` in yo
 
 ## Usage
 
-Function `numberfy-parens-buffer` and `numberfy-parens-defun` are made available to you, wich you can set to your favorite key, like:
-
-`(global-set-key (kbd "C-c C-y") 'numberfy-parens-defun)`
+ Keybinding | Function                | Description                                               |
+------------|-------------------------|-----------------------------------------------------------|
+ `C-c C-m`  | numberfy-parens-buffer  | Replace the parentheses by number in the whole buffer.    |
+ `C-c C-n`  | numberfy-parens-defun   | Replace the parentheses by number only in defun at point. |
 
 Enjoy.

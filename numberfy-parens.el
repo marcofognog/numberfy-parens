@@ -81,4 +81,13 @@
     )
   )
 
+(define-minor-mode numberfy-parens
+  "Reveal unbalanced parentheses by numbering them."
+  :lighter "numberfy-parens"
+  :global t
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "C-c C-n") 'numberfy-parens-defun)
+            (define-key map (kbd "C-c C-m") 'numberfy-parens-buffer)
+            map))
+
 (provide 'numberfy-parens)

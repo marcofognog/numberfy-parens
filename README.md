@@ -14,8 +14,8 @@ Download numberfy-parens.el to your load path ad require `numberfy-parens` in yo
 
 ## Usage
 
-Only one function `numberfy-parens-buffer` is made available to you, wich you can set to your favorite key, like:
+Function `numberfy-parens-buffer` and `numberfy-parens-defun` are made available to you, wich you can set to your favorite key, like:
 
-`(global-set-key (kbd "C-c C-y") 'numberfy-parens-buffer)`
+`(global-set-key (kbd "C-c C-y") 'numberfy-parens-defun)`
 
 Enjoy.

@@ -1,4 +1,4 @@
-# numbered-parens-mode
+# numberfy-parens-mode
 
 Reveal unbalanced parentheses in a snap.
 

@@ -16,7 +16,7 @@ Download numberfy-parens.el to your load path ad require `numberfy-parens` in yo
 
  Keybinding | Function                | Description                                               |
 ------------|-------------------------|-----------------------------------------------------------|
- `C-c C-m`  | numberfy-parens-buffer  | Replace the parentheses by number in the whole buffer.    |
- `C-c C-n`  | numberfy-parens-defun   | Replace the parentheses by number only in defun at point. |
+ `C-c C-m`  | numberfy-parens-buffer  | Replace the parentheses by numbers in the whole buffer.    |
+ `C-c C-n`  | numberfy-parens-defun   | Replace the parentheses by numbers only in defun at point. |
 
 Enjoy.

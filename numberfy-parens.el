@@ -14,6 +14,19 @@
     )
   )
 
+(defun numberfy-parens-defun ()
+  (interactive)
+  (if (numberfy-parens-in-defun)
+      (save-restriction
+        (widen)
+        (narrow-to-defun)
+        (numberfy-parens-buffer))
+    (numberfy-parens-buffer))
+  )
+
+(defun numberfy-parens-in-defun ()
+  (bounds-of-thing-at-point 'defun))
+
 (defun numberfy-parens-replace(original)
   (progn
     (setq new-list (list))

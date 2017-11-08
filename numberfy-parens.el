@@ -12,7 +12,6 @@
   )
 
 (defun numberfy-parens-mark-block()
-  (interactive)
   (numberfy-parens-goto-to-the-top-of-the-block)
   (next-line)
   (set-mark-command nil)

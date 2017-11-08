@@ -116,7 +116,7 @@
   :global nil
   :keymap (let ((map (make-sparse-keymap)))
             (define-key map (kbd "C-c C-n") 'numberfy-parens-in-block)
-            (define-key map (kbd "C-c C-m") 'numberfy-parens-in-buffer)
+            (define-key map (kbd "C-c C-y") 'numberfy-parens-in-buffer)
             map))
 
 (add-hook 'emacs-lisp-mode-hook 'numberfy-parens-mode)

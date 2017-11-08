@@ -11,6 +11,42 @@
   (numberfy-parens-in-region (region-beginning) (region-end))
   )
 
+(defun numberfy-parens-in-block()
+  (interactive)
+  (numberfy-parens-mark-block)
+  (numberfy-parens-in-region (region-beginning) (region-end))
+  )
+
+(defun numberfy-parens-mark-block()
+  (interactive)
+  (goto-to-the-top-of-the-block)
+  (next-line)
+  (set-mark-command nil)
+  (goto-to-the-bottom-of-the-block)
+  (setq deactivate-mark nil)
+  )
+
+(defun goto-to-the-top-of-the-block ()
+  (if (current-line-empty-p)
+      nil
+    (previous-line)
+    (goto-to-the-top-of-the-block)
+    )
+  )
+
+(defun goto-to-the-bottom-of-the-block ()
+  (if (current-line-empty-p)
+      nil
+    (next-line)
+    (goto-to-the-bottom-of-the-block)
+    )
+  )
+
+(defun current-line-empty-p ()
+  (save-excursion
+    (beginning-of-line)
+    (looking-at "[[:space:]]*$")))
+
 (defun numberfy-parens-in-region (start end)
   (progn
     (setq content (buffer-substring-no-properties start end))

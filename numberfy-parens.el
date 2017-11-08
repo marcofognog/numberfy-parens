@@ -110,7 +110,7 @@
     )
   )
 
-(define-minor-mode numberfy-parens
+(define-minor-mode numberfy-parens-mode
   "Reveal unbalanced parentheses by numbering them."
   :lighter "numberfy-parens"
   :global nil

@@ -5,12 +5,6 @@
   (numberfy-parens-in-region (point-min) (point-max))
   )
 
-(defun numberfy-parens-defun ()
-  (interactive)
-  (mark-defun)
-  (numberfy-parens-in-region (region-beginning) (region-end))
-  )
-
 (defun numberfy-parens-in-block()
   (interactive)
   (numberfy-parens-mark-block)

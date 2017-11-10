@@ -4,7 +4,7 @@ Reveal unbalanced parentheses in a snap.
 
 ## Demo
 
-![numbered-parens demo](https://gitlab.com/marcofognog/numbered-parens/blob/master/demo.gif)
+![numbered-parens demo](https://github.com/marcofognog/numberfy-parens/blob/master/demo.gif)
 
 Can you see the difference?
 

@@ -6,7 +6,7 @@ Reveal unbalanced parentheses in a snap.
 
 ![numbered-parens demo](https://github.com/marcofognog/numberfy-parens/blob/master/demo.gif)
 
-Can you see the difference?
+Can you spot the difference?
 
 ## Installation
 
